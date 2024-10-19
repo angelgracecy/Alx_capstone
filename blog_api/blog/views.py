@@ -5,6 +5,9 @@ from django_filters.rest_framework import DjangoFilterBackend # type: ignore
 from django.contrib.auth.models import User
 from .models import BlogPost, Category, Tag
 from .serializers import BlogPostSerializer, UserSerializer, CategorySerializer, TagSerializer
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+
 
 class IsAuthorOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
@@ -56,3 +59,5 @@ class BlogPostViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(posts, many=True)
             return Response(serializer.data)
         return Response({"error": "Category ID is required"}, status=400)
+
+
